@@ -1,0 +1,19 @@
+<Project>
+  <PropertyGroup>
+    <TargetFramework>net8.0</TargetFramework>
+    <Nullable>enable</Nullable>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <LangVersion>12.0</LangVersion>
+    <TreatWarningsAsErrors>true</TreatWarningsAsErrors>
+    
+    <!-- Package & Assembly Metadata -->
+    <Version>0.1.0</Version>
+    <Authors>FlashKV Contributors</Authors>
+    <Company>FlashKV Open Source</Company>
+    <Product>FlashKV</Product>
+    <Description>High-performance, Redis-compatible in-memory key-value store and cache.</Description>
+    <PackageLicenseExpression>MIT</PackageLicenseExpression>
+    <RepositoryUrl>https://github.com/eliazarwonder-afk/flashkv</RepositoryUrl>
+    <RepositoryType>git</RepositoryType>
+  </PropertyGroup>
+</Project>

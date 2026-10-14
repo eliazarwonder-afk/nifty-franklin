@@ -1,0 +1,23 @@
+version: '3.8'
+
+services:
+  flashkv:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: flashkv-server
+    ports:
+      - "6379:6379"
+    command: ["--host", "0.0.0.0", "--port", "6379", "--aof", "yes", "--aof-path", "/data/flashkv.aof"]
+    volumes:
+      - flashkv-data:/data
+    restart: unless-stopped
+    healthcheck:
+      test: ["CMD", "nc", "-z", "localhost", "6379"]
+      interval: 10s
+      timeout: 3s
+      retries: 3
+
+volumes:
+  flashkv-data:
+    driver: local

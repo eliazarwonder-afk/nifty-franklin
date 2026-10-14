@@ -1,0 +1,26 @@
+# Top-most EditorConfig file
+root = true
+
+# Default rules for all files
+[*]
+indent_style = space
+indent_size = 4
+end_of_line = lf
+charset = utf-8
+trim_trailing_whitespace = true
+insert_final_newline = true
+
+# C# files
+[*.cs]
+csharp_using_directive_placement = outside_namespace:error
+csharp_style_namespace_declarations = file_scoped:error
+csharp_style_var_for_built_in_types = false:suggestion
+csharp_style_var_when_type_is_apparent = true:suggestion
+
+# Markdown files
+[*.md]
+trim_trailing_whitespace = false
+
+# Rust files
+[*.rs]
+indent_size = 4

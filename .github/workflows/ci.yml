@@ -1,0 +1,59 @@
+name: CI Build & Test
+
+on:
+  push:
+    branches: [ main, develop ]
+  pull_request:
+    branches: [ main ]
+
+jobs:
+  dotnet-build-and-test:
+    name: .NET 8 Build & Test (${{ matrix.os }})
+    runs-on: ${{ matrix.os }}
+    strategy:
+      matrix:
+        os: [ ubuntu-latest, windows-latest ]
+
+    steps:
+    - name: Checkout repository
+      uses: actions/checkout@v4
+
+    - name: Setup .NET SDK 8.0
+      uses: actions/setup-dotnet@v4
+      with:
+        dotnet-version: '8.0.x'
+
+    - name: Restore dependencies
+      run: dotnet restore FlashKV.sln
+
+    - name: Build solution
+      run: dotnet build FlashKV.sln --configuration Release --no-restore
+
+    - name: Run unit & integration tests
+      run: dotnet test FlashKV.sln --configuration Release --no-build --verbosity normal
+
+  rust-bench-build:
+    name: Rust Benchmark Build & Test (${{ matrix.os }})
+    runs-on: ${{ matrix.os }}
+    strategy:
+      matrix:
+        os: [ ubuntu-latest, windows-latest ]
+
+    steps:
+    - name: Checkout repository
+      uses: actions/checkout@v4
+
+    - name: Setup Rust toolchain
+      uses: dtolnay/rust-toolchain@stable
+      with:
+        toolchain: stable
+        components: clippy, rustfmt
+
+    - name: Check code formatting
+      run: cargo fmt --manifest-path tools/flashkv-bench/Cargo.toml -- --check
+
+    - name: Clippy linter
+      run: cargo clippy --manifest-path tools/flashkv-bench/Cargo.toml -- -D warnings
+
+    - name: Build benchmark executable (Release)
+      run: cargo build --release --manifest-path tools/flashkv-bench/Cargo.toml
